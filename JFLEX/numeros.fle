@@ -1,0 +1,24 @@
+%%
+
+%class numeros
+%standalone
+%8bit
+
+%{
+  public int cont;
+%}
+
+%init{
+	cont = 0;
+%init}
+
+%eof{
+	System.out.println("Naturales = "+cont);
+%eof}
+
+
+%%
+
+[0-9]+ { cont++; }
+.   {}
+

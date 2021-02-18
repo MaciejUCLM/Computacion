@@ -1,0 +1,36 @@
+
+import java_cup.runtime.*;
+import java.io.*;
+
+parser code {:
+	public static void main(String args[]) throws Exception {
+
+ 		FileInputStream stream = new java.io.FileInputStream(args[0]);
+       		Reader reader = new java.io.InputStreamReader(stream);
+
+		try{
+			new parser(new Yylex(reader)).parse();
+		}
+		catch ( Exception e) {
+			System.out.println("Analisis INCORRECTO !!");
+			System.exit(1);
+		}
+		System.out.println("Analisis Correcto ");
+	
+		}
+:}
+
+terminal PUNTOYCOMA, MAS, POR, PAREN_I, PAREN_D;
+terminal Integer NUMERO;
+non terminal lista, expr_p;
+non terminal Integer expr;
+
+precedence left MAS;
+precedence left POR;
+
+lista ::= lista expr_p | expr_p;
+expr_p ::= expr PUNTOYCOMA;
+expr      ::= NUMERO
+            | expr MAS expr
+	    | expr POR expr
+	    | PAREN_I expr PAREN_D ;
