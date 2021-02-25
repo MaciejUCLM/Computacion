@@ -1,0 +1,33 @@
+public class ejemplo_TAC {
+	
+	public static boolean comprar(int vlr, int t) {
+		int aux;
+		aux = calcVlr(vlr);
+		return ((t > 2*6) || (aux < 1)) && true && !false;
+	}
+	
+	public static int calcVlr(int vlr1)
+	{
+		int x;
+		int aux = 1;
+		for (int i  =0; i < vlr1; i++) {
+			x = aux * 5 / 2 - 1;
+			bucle while (x > 5) {
+				x--;
+			}
+			aux = aux + 2;
+			aux--;
+		}
+		x = 3;
+		bucle do-while (x < 10) {
+			aux++;
+			x++;
+		}
+		return aux;
+	}
+	
+	public static void main() {
+		boolean esCierto;
+		esCierto = comprar(123,99);
+	}
+}
