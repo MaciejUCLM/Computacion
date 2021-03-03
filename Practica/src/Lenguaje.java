@@ -3,12 +3,12 @@
 // source: lenguaje.flex
 
 /* --------------------------Seccion codigo-usuario ------------------------ */
-/* import java_cup.runtime.Symbol; */
+import java_cup.runtime.Symbol;
 
 
 // See https://github.com/jflex-de/jflex/issues/222
 @SuppressWarnings("FallThrough")
-class lenguaje {
+class Lenguaje implements java_cup.runtime.Scanner {
 
   /** This character denotes the end of file. */
   public static final int YYEOF = -1;
@@ -36,7 +36,7 @@ class lenguaje {
      0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  2,  1,  1,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
      1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  3,  0,  0,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
@@ -57,10 +57,10 @@ class lenguaje {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\0\1\1\1\2\1\3";
+    "\1\0\1\1\1\2\1\3\1\4";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[4];
+    int [] result = new int[5];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -85,10 +85,10 @@ class lenguaje {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\3\0\3\0\3";
+    "\0\0\0\4\0\4\0\4\0\4";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[4];
+    int [] result = new int[5];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -111,10 +111,10 @@ class lenguaje {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\2\1\3\1\4\3\0";
+    "\1\2\1\3\1\4\1\5\4\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[6];
+    int [] result = new int[8];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -157,10 +157,10 @@ class lenguaje {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\3\11";
+    "\1\0\4\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[4];
+    int [] result = new int[5];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -247,7 +247,7 @@ class lenguaje {
    *
    * @param   in  the java.io.Reader to read input from.
    */
-  lenguaje(java.io.Reader in) {
+  Lenguaje(java.io.Reader in) {
   	cont = 0;
     this.zzReader = in;
   }
@@ -489,12 +489,12 @@ class lenguaje {
    * Contains user EOF-code, which will be executed exactly once,
    * when the end of file is reached
    */
-  private void zzDoEOF() {
+  private void zzDoEOF() throws java.io.IOException {
     if (!zzEOFDone) {
       zzEOFDone = true;
     
 	System.out.println("Naturales = "+cont);
-    }
+  yyclose();    }
   }
 
 
@@ -507,7 +507,7 @@ class lenguaje {
    * @return the next token.
    * @exception java.io.IOException if any I/O-Error occurs.
    */
-  public int yylex() throws java.io.IOException {
+  @Override  public java_cup.runtime.Symbol next_token() throws java.io.IOException {
     int zzInput;
     int zzAction;
 
@@ -587,7 +587,7 @@ class lenguaje {
       if (zzInput == YYEOF && zzStartRead == zzCurrentPos) {
         zzAtEOF = true;
             zzDoEOF();
-        return YYEOF;
+          { return new java_cup.runtime.Symbol(sym.EOF); }
       }
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
@@ -595,17 +595,22 @@ class lenguaje {
             { System.err.println("Caracter Ilegal: "+yytext());
             }
             // fall through
-          case 4: break;
+          case 5: break;
           case 2:
             { /* ignora delimitadores */
             }
             // fall through
-          case 5: break;
+          case 6: break;
           case 3:
             { System.out.print(yytext());
             }
             // fall through
-          case 6: break;
+          case 7: break;
+          case 4:
+            { return new Symbol(sym.PUNTOYCOMA);
+            }
+            // fall through
+          case 8: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }
@@ -624,7 +629,7 @@ class lenguaje {
    */
   public static void main(String[] argv) {
     if (argv.length == 0) {
-      System.out.println("Usage : java lenguaje [ --encoding <name> ] <inputfile(s)>");
+      System.out.println("Usage : java Lenguaje [ --encoding <name> ] <inputfile(s)>");
     }
     else {
       int firstFilePos = 0;
@@ -641,12 +646,12 @@ class lenguaje {
         }
       }
       for (int i = firstFilePos; i < argv.length; i++) {
-        lenguaje scanner = null;
+        Lenguaje scanner = null;
         try {
           java.io.FileInputStream stream = new java.io.FileInputStream(argv[i]);
           java.io.Reader reader = new java.io.InputStreamReader(stream, encodingName);
-          scanner = new lenguaje(reader);
-          while ( !scanner.zzAtEOF ) scanner.yylex();
+          scanner = new Lenguaje(reader);
+          while ( !scanner.zzAtEOF ) scanner.next_token();
         }
         catch (java.io.FileNotFoundException e) {
           System.out.println("File not found : \""+argv[i]+"\"");

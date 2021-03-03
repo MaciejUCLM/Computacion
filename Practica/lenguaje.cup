@@ -1,0 +1,37 @@
+
+import java_cup.runtime.*;
+import java.io.*;
+import java.util.*; 
+
+parser code {:
+	public static void main(String args[]) throws Exception {
+		try{
+			System.out.println("Escribe el nombre del fichero cual quiere analizar");
+			Reader reader = new BufferedReader(new FileReader(new java.util.Scanner(System.in).nextLine()));
+			new parser(new Lenguaje(reader)).parse();  							   	   // la entrada sea por teclado   
+		} catch (FileNotFoundException e){
+			System.out.println("\nEl fichero no encontrado!");
+		} catch ( Exception e) {
+			System.out.println("\nAnálisis INCORRECTO !!");
+			System.exit(1);
+		}
+		System.out.println("\nAnálisis Correcto ");
+ 	}
+:}
+
+
+terminal PUNTOYCOMA, MAS, POR, PAREN_I, PAREN_D;
+terminal Integer NUMERO;
+
+non terminal lista, expr_p;
+non terminal Integer expr;
+
+precedence left MAS;
+precedence left POR;
+
+lista ::= lista expr_p | expr_p;
+expr_p ::= expr PUNTOYCOMA;
+expr      ::= NUMERO
+            | expr MAS expr
+	    | expr POR expr
+	    | PAREN_I expr PAREN_D ;
