@@ -5,7 +5,6 @@
 
 import java_cup.runtime.*;
 import java.io.*;
-import java.util.*;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -106,18 +105,20 @@ public class parser extends java_cup.runtime.lr_parser {
 
 
 	public static void main(String args[]) throws Exception {
+
+ 		FileInputStream stream = new java.io.FileInputStream("prueba.txt");
+       		Reader reader = new java.io.InputStreamReader(stream);
+
 		try{
-			System.out.println("Escribe el nombre del fichero cual quiere analizar");
-			Reader reader = new BufferedReader(new FileReader(new java.util.Scanner(System.in).nextLine()));
-			new parser(new Lenguaje(reader)).parse();  							   	   // la entrada sea por teclado   
-		} catch (FileNotFoundException e){
-			System.out.println("\nEl fichero no encontrado!");
-		} catch ( Exception e) {
-			System.out.println("\nAnálisis INCORRECTO !!");
+			new parser(new Yylex(reader)).parse();
+		}
+		catch ( Exception e) {
+			System.out.println("Analisis INCORRECTO !!");
 			System.exit(1);
 		}
-		System.out.println("\nAnálisis Correcto ");
- 	}
+		System.out.println("Analisis Correcto ");
+	
+		}
 
 
 /** Cup generated class to encapsulate user supplied action code.*/
