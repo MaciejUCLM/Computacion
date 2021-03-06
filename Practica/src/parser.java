@@ -5,6 +5,7 @@
 
 import java_cup.runtime.*;
 import java.io.*;
+import java.util.Scanner;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -106,7 +107,11 @@ public class parser extends java_cup.runtime.lr_parser {
 
 	public static void main(String args[]) throws Exception {
 
- 		FileInputStream stream = new java.io.FileInputStream("prueba.txt");
+		Scanner scanner = new Scanner(System.in);
+		String filename = scanner.next();
+		scanner.close();
+
+ 		FileInputStream stream = new java.io.FileInputStream(filename);
        		Reader reader = new java.io.InputStreamReader(stream);
 
 		try{

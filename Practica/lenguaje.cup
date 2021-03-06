@@ -1,11 +1,15 @@
-
 import java_cup.runtime.*;
 import java.io.*;
+import java.util.Scanner;
 
 parser code {:
 	public static void main(String args[]) throws Exception {
 
- 		FileInputStream stream = new java.io.FileInputStream("prueba.txt");
+		Scanner scanner = new Scanner(System.in);
+		String filename = scanner.next();
+		scanner.close();
+
+ 		FileInputStream stream = new java.io.FileInputStream(filename);
        		Reader reader = new java.io.InputStreamReader(stream);
 
 		try{
