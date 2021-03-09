@@ -8,7 +8,7 @@ import java_cup.runtime.Symbol;
 %cup
 %type java_cup.runtime.Symbol
 %standalone
-%8bit
+%unicode
 
 %{
 	public String class_name;
@@ -32,13 +32,18 @@ import java_cup.runtime.Symbol;
 %init}
 
 %eof{
-	System.out.println("class name =\t" + class_name);
-	System.out.println("func name =\t" + func_name);
-	System.out.println("bools count =\t" + num_bools);
-	System.out.println("ints count =\t" + num_ints);
-	System.out.println("fors count =\t" + num_fors);
-	System.out.println("whiles count =\t" + num_whiles);
+	System.out.println("class name =\t'" + class_name + "'");
+	System.out.println("func name =\t'" + func_name + "'");
+	System.out.println("bools count =\t'" + num_bools + "'");
+	System.out.println("ints count =\t'" + num_ints + "'");
+	System.out.println("fors count =\t'" + num_fors + "'");
+	System.out.println("whiles count =\t'" + num_whiles + "'");
 %eof}
+
+%state CLASS
+%state FUNC
+%state LOOP
+%state WLOOP
 
 %%
 /* ------------------------ Seccion de reglas lexicas ---------------------- */
@@ -52,7 +57,30 @@ NOS SIRVE PARA ALGO?
 ")" { return new Symbol(sym.PAREN_D); }
 [0-9]+ { return new Symbol(sym.NUMERO, new Integer(yytext())); }
 */
+
+<YYINITIAL> public\ class\ [^\n\r{ ]+ { yybegin(CLASS); class_name = yytext().substring(13); }
+
+<CLASS> {
+	public\ static\ [^\n\r{ ]+ { yybegin(FUNC); func_name = yytext(); }
+	"}" { yybegin(YYINITIAL); }
+}
+
+<FUNC> {
+	for[^{]+ { num_fors++; yybegin(LOOP); }
+	while[^{]+ { num_whiles++; yybegin(WLOOP); }
+	"}" { yybegin(CLASS); }
+}
+
+<LOOP> {
+	"}" { yybegin(FUNC); }
+}
+
+<WLOOP> {
+	"}" { yybegin(FUNC); }
+}
+
 [ \t\r\n\f] { /* ignora delimitadores */ }
 
-
-. { System.err.println("Caracter Ilegal: " + yytext()); }
+. {
+	//System.err.println("Caracter Ilegal: " + yytext());
+}
