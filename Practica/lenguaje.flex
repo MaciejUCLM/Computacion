@@ -4,28 +4,47 @@ import java_cup.runtime.Symbol;
 %%
 /* ----------------- Seccion de opciones y declaraciones  ----------------- */
 
+/* %class lenguaje */
 %cup
-/*%class lenguaje*/
 %type java_cup.runtime.Symbol
 %standalone
 %8bit
 
 %{
-  public int cont;
+	public String class_name;
+
+	public String func_name;
+
+	public int num_bools;
+	public int num_ints;
+
+	public int num_fors;
+	public int num_whiles;
 %}
 
 %init{
-	cont = 0;
+	class_name = "";
+	func_name = "";
+	num_bools = 0;
+	num_ints = 0;
+	num_fors = 0;
+	num_whiles = 0;
 %init}
 
 %eof{
-	System.out.println("Naturales = "+cont);
+	System.out.println("class name =\t" + class_name);
+	System.out.println("func name =\t" + func_name);
+	System.out.println("bools count =\t" + num_bools);
+	System.out.println("ints count =\t" + num_ints);
+	System.out.println("fors count =\t" + num_fors);
+	System.out.println("whiles count =\t" + num_whiles);
 %eof}
 
 %%
 /* ------------------------ Seccion de reglas lexicas ---------------------- */
 
 /*
+NOS SIRVE PARA ALGO?
 ";" { return new Symbol(sym.PUNTOYCOMA); }
 "+" { return new Symbol(sym.MAS); }
 "*" { return new Symbol(sym.POR); }
@@ -36,4 +55,4 @@ import java_cup.runtime.Symbol;
 [ \t\r\n\f] { /* ignora delimitadores */ }
 
 
-. { System.err.println("Caracter Ilegal: "+yytext()); }
+. { System.err.println("Caracter Ilegal: " + yytext()); }

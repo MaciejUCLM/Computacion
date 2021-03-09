@@ -239,7 +239,15 @@ class Yylex implements java_cup.runtime.Scanner {
   private boolean zzEOFDone;
 
   /* user code: */
-  public int cont;
+	public String class_name;
+
+	public String func_name;
+
+	public int num_bools;
+	public int num_ints;
+
+	public int num_fors;
+	public int num_whiles;
 
 
   /**
@@ -248,7 +256,12 @@ class Yylex implements java_cup.runtime.Scanner {
    * @param   in  the java.io.Reader to read input from.
    */
   Yylex(java.io.Reader in) {
-  	cont = 0;
+  	class_name = "";
+	func_name = "";
+	num_bools = 0;
+	num_ints = 0;
+	num_fors = 0;
+	num_whiles = 0;
     this.zzReader = in;
   }
 
@@ -493,7 +506,12 @@ class Yylex implements java_cup.runtime.Scanner {
     if (!zzEOFDone) {
       zzEOFDone = true;
     
-	System.out.println("Naturales = "+cont);
+	System.out.println("class name =\t" + class_name);
+	System.out.println("func name =\t" + func_name);
+	System.out.println("bools count =\t" + num_bools);
+	System.out.println("ints count =\t" + num_ints);
+	System.out.println("fors count =\t" + num_fors);
+	System.out.println("whiles count =\t" + num_whiles);
   yyclose();    }
   }
 
@@ -592,7 +610,7 @@ class Yylex implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { System.err.println("Caracter Ilegal: "+yytext());
+            { System.err.println("Caracter Ilegal: " + yytext());
             }
             // fall through
           case 4: break;
