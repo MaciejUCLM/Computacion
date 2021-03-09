@@ -4,25 +4,23 @@ import java.util.Scanner;
 
 parser code {:
 	public static void main(String args[]) throws Exception {
-
 		System.out.print("Podaj nazwe pliku: ");
 		Scanner scanner = new Scanner(System.in);
 		String filename = scanner.next();
 		scanner.close();
 
- 		FileInputStream stream = new java.io.FileInputStream(filename);
-       		Reader reader = new java.io.InputStreamReader(stream);
+		FileInputStream stream = new java.io.FileInputStream(filename);
+		Reader reader = new java.io.InputStreamReader(stream);
 
 		try{
 			new parser(new Yylex(reader)).parse();
 		}
 		catch ( Exception e) {
-			System.out.println("Analisis INCORRECTO !!");
+			System.err.println("Analisis INCORRECTO !");
 			System.exit(1);
 		}
-		System.out.println("Analisis Correcto ");
-	
-		}
+		System.out.println("Analisis Correcto");
+	}
 :}
 
 
@@ -37,7 +35,7 @@ precedence left POR;
 
 lista ::= lista expr_p | expr_p;
 expr_p ::= expr PUNTOYCOMA;
-expr      ::= NUMERO
-            | expr MAS expr
-	    | expr POR expr
-	    | PAREN_I expr PAREN_D ;
+expr ::= NUMERO
+	| expr MAS expr
+	| expr POR expr
+	| PAREN_I expr PAREN_D;
