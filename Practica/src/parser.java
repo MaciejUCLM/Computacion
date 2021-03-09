@@ -107,6 +107,7 @@ public class parser extends java_cup.runtime.lr_parser {
 
 	public static void main(String args[]) throws Exception {
 
+		System.out.print("Podaj nazwe pliku: ");
 		Scanner scanner = new Scanner(System.in);
 		String filename = scanner.next();
 		scanner.close();

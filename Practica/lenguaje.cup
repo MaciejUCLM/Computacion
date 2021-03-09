@@ -5,6 +5,7 @@ import java.util.Scanner;
 parser code {:
 	public static void main(String args[]) throws Exception {
 
+		System.out.print("Podaj nazwe pliku: ");
 		Scanner scanner = new Scanner(System.in);
 		String filename = scanner.next();
 		scanner.close();
