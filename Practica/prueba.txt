@@ -1,33 +1,23 @@
-public class ejemplo_TAC {
-	
-	public static boolean comprar(int vlr, int t) {
+public class Ejem_TAC {
+	public static boolean comparar(int valor, int tope) {
 		int aux;
-		aux = calcVlr(vlr);
-		return ((t > 2*6) || (aux < 1)) && true && !false;
+		aux = calculaValor(valor);
+		return ((tope < 5*2) || (aux < 1)) && true;
 	}
-	
-	public static int calcVlr(int vlr1)
-	{
-		int x;
+
+	public static int calculaValor(int valor1) {
 		int aux = 1;
-		for (int i  =0; i < vlr1; i++) {
-			x = aux * 5 / 2 - 1;
-			bucle while (x > 5) {
-				x--;
+		for (int i = 0; i < valor1; i++) {
+			for (int j = i ; j < i; j--) {
+				aux = aux + 2;
 			}
-			aux = aux + 2;
-			aux--;
-		}
-		x = 3;
-		bucle do-while (x < 10) {
-			aux++;
-			x++;
+			aux = aux + 1;
 		}
 		return aux;
 	}
-	
+
 	public static void main() {
 		boolean esCierto;
-		esCierto = comprar(123,99);
+		esCierto = comparar(2,5);
 	}
 }
