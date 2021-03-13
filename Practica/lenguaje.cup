@@ -12,20 +12,29 @@ parser code {:
 		FileInputStream stream = new java.io.FileInputStream(filename);
 		Reader reader = new java.io.InputStreamReader(stream);
 
-		try{
+		try {
 			new parser(new Yylex(reader)).parse();
 		}
-		catch ( Exception e) {
-			System.err.println("Analisis INCORRECTO !");
+		catch (Exception e) {
+			System.err.println("ERROR Analisis INCORRECTO !");
 			System.exit(1);
 		}
-		System.out.println("Analisis Correcto");
+		System.out.println("Analisis CORRECTO");
 	}
 :}
 
 
-terminal PUNTOYCOMA, MAS, POR, PAREN_I, PAREN_D;
-terminal Integer NUMERO;
+terminal SEMICOLON, // ;
+	PAREN_L, PAREN_R, // ( )
+	BRAC_L, BRAC_R, // { }
+	T_VOID, T_BOOL, T_INT, // types
+	RETURN, WHILE, FOR, CLASS, STATIC, PUBLIC, // functional
+	PLUS, MINUS, MUL, DIV, // aritmethitical
+	GREATER, G_EQUAL, LESS, L_EQUAL, EQUAL, NOT_EQUAL, // relational
+	AND, OR, NOT; // logical
+terminal String VARIABLE;
+terminal Integer NUMBER;
+terminal boolean FLAG;
 
 non terminal lista, expr_p;
 non terminal Integer expr;

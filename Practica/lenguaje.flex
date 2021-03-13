@@ -11,76 +11,27 @@ import java_cup.runtime.Symbol;
 %unicode
 
 %{
-	public String class_name;
-
-	public String func_name;
-
-	public int num_bools;
-	public int num_ints;
-
-	public int num_fors;
-	public int num_whiles;
 %}
 
 %init{
-	class_name = "";
-	func_name = "";
-	num_bools = 0;
-	num_ints = 0;
-	num_fors = 0;
-	num_whiles = 0;
 %init}
 
 %eof{
-	System.out.println("class name =\t'" + class_name + "'");
-	System.out.println("func name =\t'" + func_name + "'");
-	System.out.println("bools count =\t'" + num_bools + "'");
-	System.out.println("ints count =\t'" + num_ints + "'");
-	System.out.println("fors count =\t'" + num_fors + "'");
-	System.out.println("whiles count =\t'" + num_whiles + "'");
 %eof}
-
-%state CLASS
-%state FUNC
-%state LOOP
-%state WLOOP
 
 %%
 /* ------------------------ Seccion de reglas lexicas ---------------------- */
 
-/*
-NOS SIRVE PARA ALGO?
-";" { return new Symbol(sym.PUNTOYCOMA); }
-"+" { return new Symbol(sym.MAS); }
-"*" { return new Symbol(sym.POR); }
-"(" { return new Symbol(sym.PAREN_I); }
-")" { return new Symbol(sym.PAREN_D); }
-[0-9]+ { return new Symbol(sym.NUMERO, new Integer(yytext())); }
-*/
+";" { return new Symbol(sym.SEMICOLON); }
+"+" { return new Symbol(sym.PLUS); }
+"-" { return new Symbol(sym.MINUS); }
+"*" { return new Symbol(sym.MUL); }
+"/" { return new Symbol(sym.DIV); }
+"(" { return new Symbol(sym.PAREN_L); }
+")" { return new Symbol(sym.PAREN_R); }
 
-<YYINITIAL> public\ class\ [^\n\r{ ]+ { yybegin(CLASS); class_name = yytext().substring(13); }
+[0-9]+ { return new Symbol(sym.NUMBER, new Integer(yytext())); }
 
-<CLASS> {
-	public\ static\ [^\n\r{ ]+ { yybegin(FUNC); func_name = yytext(); }
-	"}" { yybegin(YYINITIAL); }
-}
+[ \t\r\n\f] { /* ignore */ }
 
-<FUNC> {
-	for[^{]+ { num_fors++; yybegin(LOOP); }
-	while[^{]+ { num_whiles++; yybegin(WLOOP); }
-	"}" { yybegin(CLASS); }
-}
-
-<LOOP> {
-	"}" { yybegin(FUNC); }
-}
-
-<WLOOP> {
-	"}" { yybegin(FUNC); }
-}
-
-[ \t\r\n\f] { /* ignora delimitadores */ }
-
-. {
-	//System.err.println("Caracter Ilegal: " + yytext());
-}
+. { /* System.err.println("Caracter Ilegal: " + yytext()); */ }
