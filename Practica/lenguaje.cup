@@ -27,6 +27,7 @@ parser code {:
 terminal SEMICOLON, // ;
 	PAREN_L, PAREN_R, // ( )
 	BRAC_L, BRAC_R, // { }
+	UMINUS, // -123
 	T_VOID, T_BOOL, T_INT, // types
 	RETURN, WHILE, FOR, CLASS, STATIC, PUBLIC, // functional
 	PLUS, MINUS, MUL, DIV, // aritmethitical
@@ -36,15 +37,22 @@ terminal String VARIABLE;
 terminal Integer NUMBER;
 terminal boolean FLAG;
 
-non terminal lista, expr_p;
-non terminal Integer expr;
+non terminal declaration, cmd, expr_part, expr_list;
+non terminal var_assign, loop, func_call, func_dec, class_dec;
 
-precedence left MAS;
-precedence left POR;
+precedence left PLUS, MINUS;
+precedence left MUL, DIV;
+precedence left UMINUS;
 
-lista ::= lista expr_p | expr_p;
-expr_p ::= expr PUNTOYCOMA;
-expr ::= NUMERO
-	| expr MAS expr
-	| expr POR expr
-	| PAREN_I expr PAREN_D;
+expr_list ::= expr_list expr_part | expr_part;
+expr_part ::= cmd SEMICOLON
+	| declaration BRAC_L cmd BRAC_R;
+
+cmd ::= var_assign | func_call;
+declaration ::= class_dec | func_dec | loop;
+
+var_assign ::= ;
+func_call ::= ;
+class_dec ::= ;
+func_dec ::= ;
+loop ::= ;
