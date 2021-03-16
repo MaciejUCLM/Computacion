@@ -27,10 +27,38 @@ import java_cup.runtime.Symbol;
 "-" { return new Symbol(sym.MINUS); }
 "*" { return new Symbol(sym.MUL); }
 "/" { return new Symbol(sym.DIV); }
+
+">" { return new Symbol(sym.GREATER); }
+">=" { return new Symbol(sym.G_EQUAL); }
+"<" { return new Symbol(sym.LESS); }
+"<=" { return new Symbol(sym.L_EQUAL); }
+
+"&&" { return new Symbol(sym.AND); }
+"||" { return new Symbol(sym.OR); }
+"!" { return new Symbol(sym.NOT); }
+
 "(" { return new Symbol(sym.PAREN_L); }
 ")" { return new Symbol(sym.PAREN_R); }
+"{" { return new Symbol(sym.BRAC_L); }
+"}" { return new Symbol(sym.BRAC_R); }
 
+/* types */
+"void" { return new Symbol(sym.T_VOID); }
+"boolean" { return new Symbol(sym.T_BOOL); }
+"int" { return new Symbol(sym.T_INT); }
+
+/* functional */
+"return" { return new Symbol(sym.RETURN); }
+"while" { return new Symbol(sym.WHILE); }
+"for" { return new Symbol(sym.FOR); }
+"class" { return new Symbol(sym.CLASS); }
+"static" { return new Symbol(sym.STATIC); }
+"public" { return new Symbol(sym.PUBLIC); }
+
+/* composite */
 [0-9]+ { return new Symbol(sym.NUMBER, new Integer(yytext())); }
+
+
 
 [ \t\r\n\f] { /* ignore */ }
 
