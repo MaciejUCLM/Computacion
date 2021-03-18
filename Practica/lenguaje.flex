@@ -23,7 +23,10 @@ import java_cup.runtime.Symbol;
 /* ------------------------ Seccion de reglas lexicas ---------------------- */
 
 ";" { return new Symbol(sym.SEMICOLON); }
+"," { return new Symbol(sym.COMMA); }
+"=" { return new Symbol(sym.ASSIGN); }
 "+" { return new Symbol(sym.PLUS); }
+/* UMINUS */
 "-" { return new Symbol(sym.MINUS); }
 "*" { return new Symbol(sym.MUL); }
 "/" { return new Symbol(sym.DIV); }
@@ -55,10 +58,13 @@ import java_cup.runtime.Symbol;
 "static" { return new Symbol(sym.STATIC); }
 "public" { return new Symbol(sym.PUBLIC); }
 
+"true" { return new Symbol(sym.FLAG, true); }
+"false" { return new Symbol(sym.FLAG, false); }
+
+[a-zA-Z_][0-9a-zA-Z_]* { return new Symbol(sym.IDENT, yytext()); }
+
 /* composite */
 [0-9]+ { return new Symbol(sym.NUMBER, new Integer(yytext())); }
-
-
 
 [ \t\r\n\f] { /* ignore */ }
 

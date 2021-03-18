@@ -24,21 +24,24 @@ parser code {:
 :}
 
 
-terminal SEMICOLON, // ;
+terminal SEMICOLON, COMMA, // ; ,
 	PAREN_L, PAREN_R, // ( )
 	BRAC_L, BRAC_R, // { }
+	ASSIGN, // =
 	UMINUS, // -123
 	T_VOID, T_BOOL, T_INT, // types
 	RETURN, WHILE, FOR, CLASS, STATIC, PUBLIC, // functional
 	PLUS, MINUS, MUL, DIV, // aritmethitical
 	GREATER, G_EQUAL, LESS, L_EQUAL, EQUAL, NOT_EQUAL, // relational
 	AND, OR, NOT; // logical
-terminal String VARIABLE;
+terminal String IDENT;
 terminal Integer NUMBER;
 terminal boolean FLAG;
 
-non terminal declaration, cmd, expr_part, expr_list;
-non terminal var_assign, loop, func_call, func_dec, class_dec;
+non terminal compound, cmd, expr_part, expr_list;
+non terminal var_expr, var_assign, var_def, func_call, func_args, arg;
+non terminal math_i, math_expr;
+non terminal func_dec, class_dec, loop;
 
 precedence left PLUS, MINUS;
 precedence left MUL, DIV;
@@ -46,13 +49,30 @@ precedence left UMINUS;
 
 expr_list ::= expr_list expr_part | expr_part;
 expr_part ::= cmd SEMICOLON
-	| declaration BRAC_L cmd BRAC_R;
+	| compound BRAC_L expr_part BRAC_R;
 
-cmd ::= var_assign | func_call;
-declaration ::= class_dec | func_dec | loop;
+cmd ::= var_def | var_assign | func_call;
 
-var_assign ::= ;
-func_call ::= ;
+compound ::= class_dec | func_dec | loop;
+
+var_def ::= T_BOOL IDENT | T_INT IDENT;
+math_i ::= NUMBER | func_call | VARIABLE;
+math_expr ::= PAREN_L math_i PAREN_R
+	| math_i PLUS math_expr
+	| math_i MINUS math_expr
+	| math_i MUL math_expr
+	| math_i DIV math_expr
+	| UMINUS math_i
+	| math_i;
+var_expr ::= PAREN_L var_expr PAREN_R | math_expr | UMINUS math_expr;
+var_assign ::= IDENT ASSIGN var_expr | var_def ASSIGN var_expr;
+
+func_call ::= T_VOID IDENT PAREN_L func_args PAREN_R
+	| T_BOOL IDENT PAREN_L func_args PAREN_R
+	| T_INT IDENT PAREN_L func_args PAREN_R;
+func_args ::= arg COMMA func_args | arg | ;
+arg ::= T_VOID | T_VOID IDENT | T_BOOL IDENT | T_INT IDENT;
+
 class_dec ::= ;
 func_dec ::= ;
 loop ::= ;
