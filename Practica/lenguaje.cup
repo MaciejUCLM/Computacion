@@ -48,9 +48,10 @@ precedence left PLUS, MINUS;
 precedence left MUL, DIV;
 precedence left UMINUS;
 
-expr_list ::= expr_list expr_part | expr_part;
+expr_list ::= expr_list expr_part | expr_part; //Either this works or the math_expr
 expr_part ::= cmd SEMICOLON
 	| compound BRAC_L expr_part BRAC_R;
+
 
 cmd ::= var_inc | var_def | var_assign | func_call | RETURN var_expr;
 
@@ -59,13 +60,14 @@ compound ::= class_dec | func_dec | loop;
 var_def ::= T_BOOL IDENT | T_INT IDENT;
 
 math_i ::= NUMBER | func_call | IDENT;
-math_expr ::= PAREN_L math_i PAREN_R
+math_expr ::= PAREN_L math_expr PAREN_R //math_expr has to be here because parentesis can occur a lot of times
 	| math_i PLUS math_expr
 	| math_i MINUS math_expr
 	| math_i MUL math_expr
 	| math_i DIV math_expr
-	| UMINUS math_i;/*
-	| math_i;*/ // The bug is caused by everything that math_i contains in its definition 
+	| UMINUS math_i
+	| math_i; // The bug appears when math_i is added
+	
 
 
 var_expr ::= PAREN_L var_expr PAREN_R | math_expr | UMINUS math_expr;
@@ -73,7 +75,7 @@ var_assign ::= IDENT ASSIGN var_expr | var_def ASSIGN var_expr;
 var_inc ::= IDENT PLUS PLUS | IDENT MINUS MINUS;
 
 func_call ::= T_VOID IDENT PAREN_L func_args PAREN_R
-	| T_BOOL IDENT PAREN_L func_args PAREN_R
+| T_BOOL IDENT PAREN_L func_args PAREN_R
 	| T_INT IDENT PAREN_L func_args PAREN_R;
 func_args ::= arg COMMA func_args | arg | ;
 arg ::= T_VOID | T_VOID IDENT | T_BOOL IDENT | T_INT IDENT;
