@@ -65,7 +65,7 @@ math_expr ::= PAREN_L math_i PAREN_R
 	| math_i MUL math_expr
 	| math_i DIV math_expr
 	| UMINUS math_i;/*
-	| math_i;*/ // Either: math_i, NUMBER, func_call, IDENT give error
+	| math_i;*/ // The bug is caused by everything that math_i contains in its definition 
 
 
 var_expr ::= PAREN_L var_expr PAREN_R | math_expr | UMINUS math_expr;
