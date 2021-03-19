@@ -60,14 +60,13 @@ compound ::= class_dec | func_dec | loop;
 var_def ::= T_BOOL IDENT | T_INT IDENT;
 
 math_i ::= NUMBER | func_call | IDENT;
-math_expr ::= PAREN_L math_expr PAREN_R //math_expr has to be here because parentesis can occur a lot of times
+math_expr ::= PAREN_L math_i PAREN_R //bug appears if math_i is changed to math_expr
 	| math_i PLUS math_expr
 	| math_i MINUS math_expr
 	| math_i MUL math_expr
 	| math_i DIV math_expr
-	| UMINUS math_i
-	| math_i; // The bug appears when math_i is added
-	
+	| UMINUS math_i;/*
+	| math_i;*/ // The bug appears when math_i is added
 
 
 var_expr ::= PAREN_L var_expr PAREN_R | math_expr | UMINUS math_expr;
