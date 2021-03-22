@@ -26,7 +26,6 @@ import java_cup.runtime.Symbol;
 "," { return new Symbol(sym.COMMA); }
 "=" { return new Symbol(sym.ASSIGN); }
 "+" { return new Symbol(sym.PLUS); }
-/* UMINUS */
 "-" { return new Symbol(sym.MINUS); }
 "*" { return new Symbol(sym.MUL); }
 "/" { return new Symbol(sym.DIV); }
@@ -35,6 +34,8 @@ import java_cup.runtime.Symbol;
 ">=" { return new Symbol(sym.G_EQUAL); }
 "<" { return new Symbol(sym.LESS); }
 "<=" { return new Symbol(sym.L_EQUAL); }
+"==" { return new Symbol(sym.EQUAL); }
+"!=" { return new Symbol(sym.NOT_EQUAL); }
 
 "&&" { return new Symbol(sym.AND); }
 "||" { return new Symbol(sym.OR); }

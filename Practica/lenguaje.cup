@@ -28,7 +28,6 @@ terminal SEMICOLON, COMMA, // ; ,
 	PAREN_L, PAREN_R, // ( )
 	BRAC_L, BRAC_R, // { }
 	ASSIGN, // =
-	UMINUS, // -123
 	T_VOID, T_BOOL, T_INT, // types
 	RETURN, WHILE, FOR, CLASS, STATIC, PUBLIC, // functional
 	PLUS, MINUS, MUL, DIV, // aritmethitical
@@ -46,7 +45,6 @@ non terminal func_dec, class_dec, loop;
 
 precedence left PLUS, MINUS;
 precedence left MUL, DIV;
-precedence left UMINUS;
 
 expr_list ::= expr_list expr_part | expr_part; //Either this works or the math_expr
 expr_part ::= cmd SEMICOLON
