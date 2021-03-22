@@ -4,40 +4,94 @@ import java.util.Scanner;
 
 parser code {:
 	public static void main(String args[]) throws Exception {
-
 		System.out.print("Podaj nazwe pliku: ");
 		Scanner scanner = new Scanner(System.in);
 		String filename = scanner.next();
 		scanner.close();
 
- 		FileInputStream stream = new java.io.FileInputStream(filename);
-       		Reader reader = new java.io.InputStreamReader(stream);
+		FileInputStream stream = new java.io.FileInputStream(filename);
+		Reader reader = new java.io.InputStreamReader(stream);
 
-		try{
+		try {
 			new parser(new Yylex(reader)).parse();
 		}
-		catch ( Exception e) {
-			System.out.println("Analisis INCORRECTO !!");
+		catch (Exception e) {
+			System.err.println("ERROR Analisis INCORRECTO !");
 			System.exit(1);
 		}
-		System.out.println("Analisis Correcto ");
-	
-		}
+		System.out.println("Analisis CORRECTO");
+	}
 :}
 
 
-terminal PUNTOYCOMA, MAS, POR, PAREN_I, PAREN_D;
-terminal Integer NUMERO;
+terminal SEMICOLON, COMMA, // ; ,
+	PAREN_L, PAREN_R, // ( )
+	BRAC_L, BRAC_R, // { }
+	ASSIGN, // =
+	T_VOID, T_BOOL, T_INT, // types
+	RETURN, WHILE, FOR, CLASS, STATIC, PUBLIC, // functional
+	PLUS, MINUS, MUL, DIV, // aritmethitical
+	GREATER, G_EQUAL, LESS, L_EQUAL, EQUAL, NOT_EQUAL, // relational
+	AND, OR, NOT; // logical
+terminal String IDENT;
+terminal Integer NUMBER;
+terminal boolean FLAG;
 
-non terminal lista, expr_p;
-non terminal Integer expr;
+non terminal compound, cmd, expr_part, expr_list;
+non terminal var_expr, var_inc, var_assign, var_def;
+non terminal func_call, func_args, arg;
+non terminal math_i, math_expr, logical_i, logical_expr, relational_expr;
+non terminal func_dec, class_dec, loop;
 
-precedence left MAS;
-precedence left POR;
+precedence left PLUS, MINUS;
+precedence left MUL, DIV;
 
-lista ::= lista expr_p | expr_p;
-expr_p ::= expr PUNTOYCOMA;
-expr      ::= NUMERO
-            | expr MAS expr
-	    | expr POR expr
-	    | PAREN_I expr PAREN_D ;
+expr_list ::= expr_list expr_part | expr_part; //Either this works or the math_expr
+expr_part ::= cmd SEMICOLON
+	| compound BRAC_L expr_part BRAC_R;
+
+
+cmd ::= var_inc | var_def | var_assign | func_call | RETURN var_expr;
+
+compound ::= class_dec | func_dec | loop;
+
+var_def ::= T_BOOL IDENT | T_INT IDENT;
+
+math_i ::= NUMBER | func_call | IDENT;
+math_expr ::= PAREN_L math_i PAREN_R //bug appears if math_i is changed to math_expr
+	| math_i PLUS math_expr
+	| math_i MINUS math_expr
+	| math_i MUL math_expr
+	| math_i DIV math_expr
+	| UMINUS math_i;/*
+	| math_i;*/ // The bug appears when math_i is added
+
+
+var_expr ::= PAREN_L var_expr PAREN_R | math_expr | UMINUS math_expr;
+var_assign ::= IDENT ASSIGN var_expr | var_def ASSIGN var_expr;
+var_inc ::= IDENT PLUS PLUS | IDENT MINUS MINUS;
+
+func_call ::= T_VOID IDENT PAREN_L func_args PAREN_R
+| T_BOOL IDENT PAREN_L func_args PAREN_R
+	| T_INT IDENT PAREN_L func_args PAREN_R;
+func_args ::= arg COMMA func_args | arg | ;
+arg ::= T_VOID | T_VOID IDENT | T_BOOL IDENT | T_INT IDENT;
+
+logical_i ::= NOT IDENT | IDENT;
+relational_expr ::= PAREN_L relational_expr PAREN_R
+	| NOT PAREN_L relational_expr PAREN_R
+	| logical_i GREATER logical_i
+	| logical_i G_EQUAL logical_i
+	| logical_i LESS logical_i
+	| logical_i L_EQUAL logical_i
+	| logical_i EQUAL logical_i
+	| logical_i NOT_EQUAL logical_i;
+logical_expr ::= relational_expr
+	| logical_expr AND relational_expr
+	| logical_expr OR relational_expr;
+
+class_dec ::= PUBLIC CLASS IDENT;
+func_dec ::= PUBLIC STATIC IDENT PAREN_L func_args PAREN_R;
+loop ::= WHILE PAREN_L logical_expr PAREN_R
+	| FOR PAREN_L var_assign SEMICOLON logical_expr SEMICOLON var_expr PAREN_R;
+

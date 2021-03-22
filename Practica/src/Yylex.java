@@ -18,6 +18,10 @@ class Yylex implements java_cup.runtime.Scanner {
 
   // Lexical states.
   public static final int YYINITIAL = 0;
+  public static final int CLASS = 2;
+  public static final int FUNC = 4;
+  public static final int LOOP = 6;
+  public static final int WLOOP = 8;
 
   /**
    * ZZ_LEXSTATE[l] is the state in the DFA for the lexical state l
@@ -26,30 +30,67 @@ class Yylex implements java_cup.runtime.Scanner {
    * l is of the form l = 2*k, k a non negative integer
    */
   private static final int ZZ_LEXSTATE[] = {
-     0, 0
+     0,  0,  1,  1,  2,  2,  3,  3,  3, 3
   };
 
   /**
-   * Translates characters to character classes
+   * Top-level table for translating characters to character classes
    */
-  private static final char [] ZZ_CMAP = {
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  2,  1,  1,  0,  0, 
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     0,  0,  0,  0,  0,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 
-     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0
-  };
+  private static final int [] ZZ_CMAP_TOP = zzUnpackcmap_top();
+
+  private static final String ZZ_CMAP_TOP_PACKED_0 =
+    "\1\0\37\u0100\1\u0200\267\u0100\10\u0300\u1020\u0100";
+
+  private static int [] zzUnpackcmap_top() {
+    int [] result = new int[4352];
+    int offset = 0;
+    offset = zzUnpackcmap_top(ZZ_CMAP_TOP_PACKED_0, offset, result);
+    return result;
+  }
+
+  private static int zzUnpackcmap_top(String packed, int offset, int [] result) {
+    int i = 0;       /* index in packed string  */
+    int j = offset;  /* index in unpacked array */
+    int l = packed.length();
+    while (i < l) {
+      int count = packed.charAt(i++);
+      int value = packed.charAt(i++);
+      do result[j++] = value; while (--count > 0);
+    }
+    return j;
+  }
+
+
+  /**
+   * Second-level tables for translating characters to character classes
+   */
+  private static final int [] ZZ_CMAP_BLOCKS = zzUnpackcmap_blocks();
+
+  private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
+    "\11\0\1\1\1\2\1\3\1\1\1\2\22\0\1\4"+
+    "\100\0\1\5\1\6\1\7\1\0\1\10\1\11\1\0"+
+    "\1\12\1\13\2\0\1\14\2\0\1\15\1\16\1\0"+
+    "\1\17\1\20\1\21\1\22\1\0\1\23\3\0\1\24"+
+    "\1\0\1\25\7\0\1\3\u01a2\0\2\3\326\0\u0100\3";
+
+  private static int [] zzUnpackcmap_blocks() {
+    int [] result = new int[1024];
+    int offset = 0;
+    offset = zzUnpackcmap_blocks(ZZ_CMAP_BLOCKS_PACKED_0, offset, result);
+    return result;
+  }
+
+  private static int zzUnpackcmap_blocks(String packed, int offset, int [] result) {
+    int i = 0;       /* index in packed string  */
+    int j = offset;  /* index in unpacked array */
+    int l = packed.length();
+    while (i < l) {
+      int count = packed.charAt(i++);
+      int value = packed.charAt(i++);
+      do result[j++] = value; while (--count > 0);
+    }
+    return j;
+  }
 
   /**
    * Translates DFA states to action switch labels.
@@ -57,10 +98,12 @@ class Yylex implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\0\1\1\1\2\1\3";
+    "\4\0\1\1\1\2\1\3\2\1\1\4\2\1\1\5"+
+    "\1\6\12\0\1\7\6\0\1\10\16\0\1\11\1\0"+
+    "\1\12";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[4];
+    int [] result = new int[49];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -85,10 +128,16 @@ class Yylex implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\3\0\3\0\3";
+    "\0\0\0\26\0\54\0\102\0\130\0\130\0\130\0\156"+
+    "\0\204\0\130\0\232\0\260\0\130\0\130\0\306\0\334"+
+    "\0\362\0\u0108\0\u011e\0\u0134\0\u014a\0\u0160\0\u0176\0\u018c"+
+    "\0\u014a\0\u01a2\0\u01b8\0\u01ce\0\u01e4\0\u01fa\0\u0210\0\u01e4"+
+    "\0\u0226\0\u023c\0\u0252\0\u0268\0\u027e\0\u0294\0\u02aa\0\u02c0"+
+    "\0\u02d6\0\u02ec\0\u0302\0\u0318\0\u032e\0\u0344\0\u032e\0\u035a"+
+    "\0\u035a";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[4];
+    int [] result = new int[49];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -111,10 +160,24 @@ class Yylex implements java_cup.runtime.Scanner {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\2\1\3\1\4\3\0";
+    "\1\5\2\6\1\7\1\6\11\5\1\10\10\5\2\6"+
+    "\1\7\1\6\11\5\1\11\6\5\1\12\1\5\2\6"+
+    "\1\7\1\6\4\5\1\13\11\5\1\14\1\5\1\15"+
+    "\1\5\2\6\1\7\1\6\20\5\1\16\50\0\1\17"+
+    "\25\0\1\20\20\0\1\21\22\0\1\22\21\0\1\23"+
+    "\25\0\1\24\36\0\1\25\21\0\1\26\26\0\1\27"+
+    "\25\0\1\30\11\0\24\31\1\0\1\31\14\0\1\32"+
+    "\24\0\1\33\25\0\1\34\22\0\1\35\24\0\1\36"+
+    "\25\0\1\37\16\0\24\40\1\0\1\40\4\0\1\41"+
+    "\25\0\1\42\30\0\1\43\36\0\1\44\21\0\1\45"+
+    "\32\0\1\46\11\0\1\47\25\0\1\50\40\0\1\51"+
+    "\26\0\1\52\24\0\1\53\20\0\1\54\16\0\1\55"+
+    "\30\0\1\56\16\0\2\57\1\0\1\57\1\0\17\57"+
+    "\1\0\1\57\4\0\1\60\21\0\2\61\1\0\1\61"+
+    "\1\0\17\61\1\0\1\61";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[6];
+    int [] result = new int[880];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -157,10 +220,11 @@ class Yylex implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\3\11";
+    "\4\0\3\11\2\1\1\11\2\1\2\11\12\0\1\1"+
+    "\6\0\1\1\16\0\1\1\1\0\1\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[4];
+    int [] result = new int[49];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -269,7 +333,8 @@ class Yylex implements java_cup.runtime.Scanner {
    * Translates raw input code points to DFA table row
    */
   private static int zzCMap(int input) {
-    return ZZ_CMAP[input];
+    int offset = input & 255;
+    return offset == input ? ZZ_CMAP_BLOCKS[offset] : ZZ_CMAP_BLOCKS[ZZ_CMAP_TOP[input >> 8] | offset];
   }
 
   /**
@@ -506,12 +571,12 @@ class Yylex implements java_cup.runtime.Scanner {
     if (!zzEOFDone) {
       zzEOFDone = true;
     
-	System.out.println("class name =\t" + class_name);
-	System.out.println("func name =\t" + func_name);
-	System.out.println("bools count =\t" + num_bools);
-	System.out.println("ints count =\t" + num_ints);
-	System.out.println("fors count =\t" + num_fors);
-	System.out.println("whiles count =\t" + num_whiles);
+	System.out.println("class name =\t'" + class_name + "'");
+	System.out.println("func name =\t'" + func_name + "'");
+	System.out.println("bools count =\t'" + num_bools + "'");
+	System.out.println("ints count =\t'" + num_ints + "'");
+	System.out.println("fors count =\t'" + num_fors + "'");
+	System.out.println("whiles count =\t'" + num_whiles + "'");
   yyclose();    }
   }
 
@@ -610,20 +675,55 @@ class Yylex implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { System.err.println("Caracter Ilegal: " + yytext());
+            { //System.err.println("Caracter Ilegal: " + yytext());
             }
             // fall through
-          case 4: break;
+          case 11: break;
           case 2:
             { /* ignora delimitadores */
             }
             // fall through
-          case 5: break;
+          case 12: break;
           case 3:
             { System.out.print(yytext());
             }
             // fall through
-          case 6: break;
+          case 13: break;
+          case 4:
+            { yybegin(YYINITIAL);
+            }
+            // fall through
+          case 14: break;
+          case 5:
+            { yybegin(CLASS);
+            }
+            // fall through
+          case 15: break;
+          case 6:
+            { yybegin(FUNC);
+            }
+            // fall through
+          case 16: break;
+          case 7:
+            { num_fors++; yybegin(LOOP);
+            }
+            // fall through
+          case 17: break;
+          case 8:
+            { num_whiles++; yybegin(WLOOP);
+            }
+            // fall through
+          case 18: break;
+          case 9:
+            { yybegin(CLASS); class_name = yytext().substring(13);
+            }
+            // fall through
+          case 19: break;
+          case 10:
+            { yybegin(FUNC); func_name = yytext();
+            }
+            // fall through
+          case 20: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

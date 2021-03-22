@@ -8,51 +8,65 @@ import java_cup.runtime.Symbol;
 %cup
 %type java_cup.runtime.Symbol
 %standalone
-%8bit
+%unicode
 
 %{
-	public String class_name;
-
-	public String func_name;
-
-	public int num_bools;
-	public int num_ints;
-
-	public int num_fors;
-	public int num_whiles;
 %}
 
 %init{
-	class_name = "";
-	func_name = "";
-	num_bools = 0;
-	num_ints = 0;
-	num_fors = 0;
-	num_whiles = 0;
 %init}
 
 %eof{
-	System.out.println("class name =\t" + class_name);
-	System.out.println("func name =\t" + func_name);
-	System.out.println("bools count =\t" + num_bools);
-	System.out.println("ints count =\t" + num_ints);
-	System.out.println("fors count =\t" + num_fors);
-	System.out.println("whiles count =\t" + num_whiles);
 %eof}
 
 %%
 /* ------------------------ Seccion de reglas lexicas ---------------------- */
 
-/*
-NOS SIRVE PARA ALGO?
-";" { return new Symbol(sym.PUNTOYCOMA); }
-"+" { return new Symbol(sym.MAS); }
-"*" { return new Symbol(sym.POR); }
-"(" { return new Symbol(sym.PAREN_I); }
-")" { return new Symbol(sym.PAREN_D); }
-[0-9]+ { return new Symbol(sym.NUMERO, new Integer(yytext())); }
-*/
-[ \t\r\n\f] { /* ignora delimitadores */ }
+";" { return new Symbol(sym.SEMICOLON); }
+"," { return new Symbol(sym.COMMA); }
+"=" { return new Symbol(sym.ASSIGN); }
+"+" { return new Symbol(sym.PLUS); }
+"-" { return new Symbol(sym.MINUS); }
+"*" { return new Symbol(sym.MUL); }
+"/" { return new Symbol(sym.DIV); }
 
+">" { return new Symbol(sym.GREATER); }
+">=" { return new Symbol(sym.G_EQUAL); }
+"<" { return new Symbol(sym.LESS); }
+"<=" { return new Symbol(sym.L_EQUAL); }
+"==" { return new Symbol(sym.EQUAL); }
+"!=" { return new Symbol(sym.NOT_EQUAL); }
 
-. { System.err.println("Caracter Ilegal: " + yytext()); }
+"&&" { return new Symbol(sym.AND); }
+"||" { return new Symbol(sym.OR); }
+"!" { return new Symbol(sym.NOT); }
+
+"(" { return new Symbol(sym.PAREN_L); }
+")" { return new Symbol(sym.PAREN_R); }
+"{" { return new Symbol(sym.BRAC_L); }
+"}" { return new Symbol(sym.BRAC_R); }
+
+/* types */
+"void" { return new Symbol(sym.T_VOID); }
+"boolean" { return new Symbol(sym.T_BOOL); }
+"int" { return new Symbol(sym.T_INT); }
+
+/* functional */
+"return" { return new Symbol(sym.RETURN); }
+"while" { return new Symbol(sym.WHILE); }
+"for" { return new Symbol(sym.FOR); }
+"class" { return new Symbol(sym.CLASS); }
+"static" { return new Symbol(sym.STATIC); }
+"public" { return new Symbol(sym.PUBLIC); }
+
+"true" { return new Symbol(sym.FLAG, true); }
+"false" { return new Symbol(sym.FLAG, false); }
+
+[a-zA-Z_][0-9a-zA-Z_]* { return new Symbol(sym.IDENT, yytext()); }
+
+/* composite */
+[0-9]+ { return new Symbol(sym.NUMBER, new Integer(yytext())); }
+
+[ \t\r\n\f] { /* ignore */ }
+
+. { /* System.err.println("Caracter Ilegal: " + yytext()); */ }
