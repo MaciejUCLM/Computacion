@@ -6,23 +6,75 @@
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int NUMERO = 7;
-  public static final int PUNTOYCOMA = 2;
-  public static final int PAREN_D = 6;
-  public static final int MAS = 3;
-  public static final int error = 1;
-  public static final int PAREN_I = 5;
-  public static final int POR = 4;
+  public static final int AND = 28;
+  public static final int FLAG = 33;
+  public static final int IDENT = 31;
+  public static final int CLASS = 15;
+  public static final int SEMICOLON = 2;
+  public static final int PLUS = 18;
+  public static final int T_INT = 11;
+  public static final int OR = 29;
+  public static final int EQUAL = 26;
+  public static final int WHILE = 13;
+  public static final int NOT = 30;
+  public static final int PAREN_R = 5;
+  public static final int RETURN = 12;
+  public static final int NOT_EQUAL = 27;
+  public static final int GREATER = 22;
+  public static final int L_EQUAL = 25;
+  public static final int BRAC_R = 7;
+  public static final int PAREN_L = 4;
+  public static final int PUBLIC = 17;
+  public static final int STATIC = 16;
+  public static final int BRAC_L = 6;
+  public static final int COMMA = 3;
+  public static final int NUMBER = 32;
   public static final int EOF = 0;
+  public static final int T_BOOL = 10;
+  public static final int DIV = 21;
+  public static final int G_EQUAL = 23;
+  public static final int MINUS = 19;
+  public static final int T_VOID = 9;
+  public static final int error = 1;
+  public static final int ASSIGN = 8;
+  public static final int FOR = 14;
+  public static final int MUL = 20;
+  public static final int LESS = 24;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
-  "PUNTOYCOMA",
-  "MAS",
-  "POR",
-  "PAREN_I",
-  "PAREN_D",
-  "NUMERO"
+  "SEMICOLON",
+  "COMMA",
+  "PAREN_L",
+  "PAREN_R",
+  "BRAC_L",
+  "BRAC_R",
+  "ASSIGN",
+  "T_VOID",
+  "T_BOOL",
+  "T_INT",
+  "RETURN",
+  "WHILE",
+  "FOR",
+  "CLASS",
+  "STATIC",
+  "PUBLIC",
+  "PLUS",
+  "MINUS",
+  "MUL",
+  "DIV",
+  "GREATER",
+  "G_EQUAL",
+  "LESS",
+  "L_EQUAL",
+  "EQUAL",
+  "NOT_EQUAL",
+  "AND",
+  "OR",
+  "NOT",
+  "IDENT",
+  "NUMBER",
+  "FLAG"
   };
 }
 
