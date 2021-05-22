@@ -51,7 +51,6 @@ expr_list ::= expr_list expr_part | expr_part; //Either this works or the math_e
 expr_part ::= cmd SEMICOLON
 	| compound BRAC_L expr_part BRAC_R;
 
-
 cmd ::= var_inc | var_def | var_assign | func_call | RETURN var_expr;
 
 compound ::= class_dec | func_dec | loop;
@@ -59,16 +58,15 @@ compound ::= class_dec | func_dec | loop;
 var_def ::= T_BOOL IDENT | T_INT IDENT;
 
 math_i ::= NUMBER | func_call | IDENT;
-math_expr ::= PAREN_L math_i PAREN_R //bug appears if math_i is changed to math_expr
+math_expr ::= PAREN_L math_i PAREN_R
 	| math_i PLUS math_expr
 	| math_i MINUS math_expr
 	| math_i MUL math_expr
 	| math_i DIV math_expr
-	| UMINUS math_i;/*
-	| math_i;*/ // The bug appears when math_i is added
+	| MINUS math_i
+	| math_i;
 
-
-var_expr ::= PAREN_L var_expr PAREN_R | math_expr | UMINUS math_expr;
+var_expr ::= PAREN_L var_expr PAREN_R | math_expr | MINUS math_expr;
 var_assign ::= IDENT ASSIGN var_expr | var_def ASSIGN var_expr;
 var_inc ::= IDENT PLUS PLUS | IDENT MINUS MINUS;
 
