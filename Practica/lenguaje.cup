@@ -4,7 +4,8 @@ import java.util.Scanner;
 
 parser code {:
 	public static void main(String args[]) throws Exception {
-		System.out.print("Podaj nazwe pliku: ");
+	
+		System.out.print("Inserte un nombre de archivo: ");
 		Scanner scanner = new Scanner(System.in);
 		String filename = scanner.next();
 		scanner.close();
